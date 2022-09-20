@@ -13,3 +13,5 @@ setuptools.setup(
   },
   install_requires=['jupyter-server-proxy'],
 )
+import os
+os.system('julia -e "import Pkg; Pkg.add([\\"DataFrames\\", \\"CSV\\", \\"Plots\\"]); Pkg.precompile()"')
