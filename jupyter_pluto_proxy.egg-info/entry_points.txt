@@ -1,0 +1,3 @@
+[jupyter_serverproxy_servers]
+pluto = jupyter_pluto_proxy:setup_pluto
+

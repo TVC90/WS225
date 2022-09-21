@@ -1,17 +1,33 @@
 import setuptools
+from os import path
+
+
+# read the contents of your README file
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 
 setuptools.setup(
-  name="plutoserver",
-  packages=['plutoserver'],
-  package_dir={'plutoserver': 'plutoserver'},
-  package_data={'plutoserver': ['icons/pluto-logo.svg']},
-  entry_points={
-      'jupyter_serverproxy_servers': [
-          # name = packagename:function_name
-          'pluto = plutoserver:setup_plutoserver',
-      ]
-  },
-  install_requires=['jupyter-server-proxy'],
+    name="jupyter-pluto-proxy",
+    version='0.1.0',
+    url="https://github.com/illumidesk/jupyter-pluto-proxy",
+    author="IllumiDesk Team",
+    description="hello@illumidesk.com",
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    packages=setuptools.find_packages(),
+    keywords=['jupyter notebook', 'pluto notebook', 'jupyterhub', 'jupyterlab', 'jupyter-server-proxy'],
+    classifiers=['Framework :: Jupyter'],
+    install_requires=[
+        'jupyter-server-proxy>=1.5.0'
+    ],
+    entry_points={
+        'jupyter_serverproxy_servers': [
+            'pluto = jupyter_pluto_proxy:setup_pluto',
+        ]
+    },
+    package_data={
+        'jupyter_pluto_proxy': ['icons/pluto.svg'],
+    },
 )
-import os
-os.system('julia -e "import Pkg; Pkg.add([\\"DataFrames\\", \\"CSV\\", \\"Plots\\"]); Pkg.precompile()"')
