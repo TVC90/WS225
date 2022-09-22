@@ -2,7 +2,10 @@ import setuptools
 
 setuptools.setup(
   name="jupyter-pluto-proxy",
+<<<<<<< HEAD
   # py_modules rather than packages, since we only have 1 file
+=======
+>>>>>>> 34b432ba9bf03419576af9a9c143456cc9904e80
   py_modules=['plutoserver'],
   entry_points={
       'jupyter_serverproxy_servers': [
