@@ -1,21 +1,15 @@
 import setuptools
 
 setuptools.setup(
-  name="jupyter-pluto-proxy",
-<<<<<<< HEAD
-  # py_modules rather than packages, since we only have 1 file
-=======
->>>>>>> 34b432ba9bf03419576af9a9c143456cc9904e80
-  py_modules=['plutoserver'],
+  name="plutoserver",
+  packages=['plutoserver'],
+  package_dir={'plutoserver': 'plutoserver'},
+  package_data={'plutoserver': ['icons/pluto-logo.svg']},
   entry_points={
       'jupyter_serverproxy_servers': [
           # name = packagename:function_name
           'pluto = plutoserver:setup_plutoserver',
       ]
   },
-  install_requires=['jupyter-server-proxy @ git+http://github.com/fonsp/jupyter-server-proxy@3a58aa5005f942d0c208eab9a480f6ab171142ef'],
+  install_requires=['jupyter-server-proxy'],
 )
-
-# because this is a demo of Pluto, we add some popular packages to the global package env and precompile
-import os
-os.system('julia -e "import Pkg; Pkg.add([\\"DataFrames\\", \\"CSV\\", \\"Plots\\"]); Pkg.precompile()"')
