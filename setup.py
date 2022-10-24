@@ -2,9 +2,8 @@ import setuptools
 
 setuptools.setup(
   name="plutoserver",
-  packages=['plutoserver'],
-  package_dir={'plutoserver': 'plutoserver'},
-  package_data={'plutoserver': ['icons/pluto-logo.svg']},
+  # py_modules rather than packages, since we only have 1 file
+  py_modules=['plutoserver'],
   entry_points={
       'jupyter_serverproxy_servers': [
           # name = packagename:function_name
@@ -17,4 +16,3 @@ setuptools.setup(
 # because this is a demo of Pluto, we add some popular packages to the global package env and precompile
 import os
 os.system('julia -e "import Pkg; Pkg.add([\\"Markdown\\", \\"InteractiveUtils\\", \\"Documenter\\", \\"Distributions\\", \\"GLMakie\\", \\"PlutoUI\\",\\"LinearAlgebra\\"], \\"HypertextLiteral\\"); Pkg.precompile()"')
-
