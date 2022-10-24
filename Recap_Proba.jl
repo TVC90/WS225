@@ -15,7 +15,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 7741fd78-34d5-11ed-3d55-dd986e292da5
-using %Distributions, GLMakie, PlutoUI, LinearAlgebra, Markdown, InteractiveUtils, Documenter, HypertextLiteral
+using #Distributions, GLMakie, PlutoUI, LinearAlgebra, Markdown, InteractiveUtils, Documenter, HypertextLiteral
 
 # ╔═╡ e9083ca9-9542-471d-9c4d-b8382418cde8
 using D3Trees, Blink, Latexify
