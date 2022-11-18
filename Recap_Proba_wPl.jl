@@ -100,8 +100,15 @@ The probability of neutralizing the target should be:
 
 end
 
-# ╔═╡ 62bc7ec9-ac3d-43cc-9706-6e63ecef8ffd
-probability = 0.5
+# ╔═╡ 86654edf-0ddb-48e4-aa99-4094de4e8389
+@bind s10 TextField(default="0.666")
+
+
+# ╔═╡ 7f4a5c8c-4dd4-4653-a0c7-11f89025c182
+md"
+💡 you can enter your result above, if your value is correct, the box below will turn green. \
+❗ enter your value with three numbers after the comma
+"
 
 # ╔═╡ 03e2257d-4f28-42bc-af4e-fd056437a8c5
 md"## The univariate normal distribution
@@ -665,10 +672,13 @@ keep_working(text=md"The answer is not quite right.") = Markdown.MD(Markdown.Adm
 correct(text=md"Great! You got the right answer! Let's move on to the next section.") = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]));
 
 # ╔═╡ 8a8c0d29-79de-4463-a1c2-63cbbfbc019e
-if !isapprox(probability, 𝒫const)
-	hint(md"The HE can basically explode over the distance travelled in 1 second and is effective during 100 meters of this distance")
-else
-	correct()
+begin
+	probability = parse(Float64,s10)
+	if !isapprox(probability, 𝒫const, atol = 0.0015)
+		hint(md"The HE can basically explode over the distance travelled in 1 second and is effective during 100 meters of this distance")
+	else
+		correct()
+	end
 end
 
 # ╔═╡ d210926a-f42f-4bb5-9ed3-67896931d8d2
@@ -1950,7 +1960,8 @@ version = "1.4.1+0"
 # ╟─e87bd25a-9dec-4068-bd4f-c6885ce583dd
 # ╟─cd42407c-2405-4ea9-96f7-e1c339815757
 # ╟─745b923f-9ff8-4b57-82b4-472c9831c1ad
-# ╠═62bc7ec9-ac3d-43cc-9706-6e63ecef8ffd
+# ╟─86654edf-0ddb-48e4-aa99-4094de4e8389
+# ╟─7f4a5c8c-4dd4-4653-a0c7-11f89025c182
 # ╟─8a8c0d29-79de-4463-a1c2-63cbbfbc019e
 # ╟─03e2257d-4f28-42bc-af4e-fd056437a8c5
 # ╟─af250525-cf88-466a-9806-0286b459203d
