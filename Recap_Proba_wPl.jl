@@ -195,7 +195,7 @@ md"
 "
 
 # ╔═╡ da951e92-f191-4b8d-b4a6-6eac4490162f
-md"The probability is: $(@bind s TextField())"
+md"The probability is: $(@bind s TextField(default=\"0.666\"))"
 
 
 # ╔═╡ 65ec32d2-e08f-4da7-9b8f-a0d99ab11d50
@@ -218,7 +218,7 @@ md"
 "
 
 # ╔═╡ a5edd9df-1527-49a2-8a52-ebb5caad9400
-md"The pobability is: $(@bind s2 TextField())"
+md"The pobability is: $(@bind s2 TextField(default=\"0.666\"))"
 
 # ╔═╡ 91f9ccfa-7e5b-46e6-a6d2-a6aaac322594
 md"## The multivariate normal distribution
@@ -355,13 +355,13 @@ md"
 "
 
 # ╔═╡ b25d1667-16ed-4f63-ab66-0cab448213f5
-md"The CEP at 1000 m in mils is: $(@bind s3 TextField())"
+md"The CEP at 1000 m in mils is: $(@bind s3 TextField(default=\"0.666\"))"
 
 # ╔═╡ cd5c1d99-57f9-4400-96eb-f8059833b4c8
-md"The probability of hitting a circle with a radius of 1 meter at 1000 meters is: $(@bind s4 TextField())"
+md"The probability of hitting a circle with a radius of 1 meter at 1000 meters is: $(@bind s4 TextField(default=\"0.666\"))"
 
 # ╔═╡ 09e5ad14-705b-47de-bdd7-aaaa638b8ced
-md"The probability of hitting a 4 by 2 meter target at 2000 meters (assuming a linearly growing EP) is: $(@bind s5 TextField())"
+md"The probability of hitting a 4 by 2 meter target at 2000 meters (assuming a linearly growing EP) is: $(@bind s5 TextField(default=\"0.666\"))"
 
 # ╔═╡ 84ed4a72-5902-446c-9533-e3b97fa52002
 md"
@@ -549,7 +549,7 @@ end
 	md" the probability the bomber is killed is : "
 
 # ╔═╡ 46b2e44c-20c8-4317-bd47-9c92d05c5389
-@bind s6 TextField()
+@bind s6 TextField(default="0.666")
 
 # ╔═╡ 0910630c-1faf-4288-b165-fc9827965b55
 md"""
@@ -629,10 +629,10 @@ md"
 "
 
 # ╔═╡ 8d49d627-f823-4ab7-8be9-35adaf5d5bb8
-md"A deminer can defuze :$(@bind s7 TextField()) mines"
+md"A deminer can defuze :$(@bind s7 TextField(default=\"666\")) mines"
 
 # ╔═╡ 727e9ce3-9c79-47c9-9d22-501e0b18a8d0
-md"The probability is: $(@bind s8 TextField())"
+md"The probability is: $(@bind s8 TextField(default=\"0.666\"))"
 
 # ╔═╡ e74f2c3d-561e-4776-9d37-d0032343a806
 #-------------------------------------------------------------------------
