@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.9
+# v0.19.15
 
 using Markdown
 using InteractiveUtils
@@ -23,7 +23,17 @@ using D3Trees, Blink, Latexify
 # ╔═╡ 7f488943-6cd3-431d-8d8b-511365b4b90b
 md"# WS225 TPW1: Short Recap of your course on probability
 
-For more information, you are kindly invited to have a look at your course on Statistics and Probability. The introduction chapters of the \"Weaponeering\" (by Morris Driels) reference book also provide some additional information.
+For more information, you are kindly invited to have a look at your course on Statistics and Probability. The introduction chapters of the \"Weaponeering\" (by Morris Driels) reference book also provide some additional information.\
+
+In this notebook, each section contains an example of an application/exercise using the covered subject. Additional exercises for those not yet at ease with the distribution to do some additional exercises. The concepts inside these exercises (Probability calculations) will further be considered known and no longer elaborated on.
+
+💡 Let's first cover the way you should use this notebook:
+- The notebook offers some interactivity, on the right side of the page you will find the table of contents, you can click the subjects to move between topics quickcly
+- There are some sliders inside the notebook to help you get visual aid on some principles
+- There are answer boxes in some of the sections. You can perform the exercises with pen, paper and your calculator and enter them in those boxes. If your answer is correct the red boxes underneath will turn green. You should enter values with a precision of a thousandth. (0.001) 
+- Blue boxes contain hints, they are blurred by default, if you click them they reveal their information
+- The notebook allows adding your own code, but the information is not stored after you quit your session, so if you want to do more permanent actions, you can download the code using the export button on top of the page (the circle and triangle icon)
+- To obtain a PDF or HTML version (stripping the interactive layer), you can also use the export button.
 "
 
 # ╔═╡ e9bfc4df-4b0e-4196-9acf-4e13bf44348e
@@ -31,8 +41,6 @@ TableOfContents()
 
 # ╔═╡ e2bf1c53-7952-4ae7-8b76-f0d5e2c47e16
 md"## The uniform distribution
-In this notebook, each section contains an example of an application/exercise using the covered subject. Additional exercises for those not yet at ease with the distribution to do some additional exercises. The concepts inside these exercises (Probability calculations) will further be considered known and no longer elaborated on.
-
 We will start with the uniform distribution. An easy one to start with where the probability function is \"spread\" over a certain region (a line section) The distribution outside the region (delimited with a and b) has a value of zero, within the region the value is given by: 
 "
 
@@ -40,6 +48,36 @@ We will start with the uniform distribution. An easy one to start with where the
 md"""
 $$f(x) = \frac{1}{b-a}$$
 """
+
+# ╔═╡ b3088ae8-db0b-4488-bee1-7ba76470cdd6
+@bind a PlutoUI.Slider(-3:0.5:3, default=-1) 
+
+# ╔═╡ 66ace31f-2353-407e-8774-bfc83e907771
+md"""
+a set to : $a""" 
+
+
+# ╔═╡ 72b3ceba-7d58-484c-b680-aa13a7e72b75
+@bind b PlutoUI.Slider(-3:0.5:3, default=1) 
+
+# ╔═╡ 8238f948-3a51-4236-9b81-4237bff28900
+md"""
+b set to : $b""" 
+
+# ╔═╡ a21c8daa-1640-4b44-be00-015e442616f9
+if a > b 
+	println("a can't be bigger than b!")
+else
+	𝒰ₓ = -3.5:0.01:3.5
+	𝒰₁ = zeros(Float32, length(𝒰ₓ))
+	for i ∈ 1:length(𝒰ₓ)
+		(a .<= 𝒰ₓ[i] .<= b) ? 𝒰₁[i]=1/(b-a) : 𝒰₁[i] = 0. 
+	end
+	𝒰₂ = cumsum(𝒰₁.* 0.01)
+	pu1 = scatter(collect(𝒰ₓ), 𝒰₁, title = "UD (PDF)", xlabel = "[m]", ylabel = "probability", xlims = (-3.5, 3.5), ylims = (-0.01, max(1/(b-a)+0.01, 1.001)))
+	pu2 = scatter(collect(𝒰ₓ), 𝒰₂, title = "UD (CDF)", xlabel = "[m]", ylabel = "probability", xlims = (-3.5, 3.5), ylims = (-0.01, 1.01))
+	plot(pu1, pu2, layout = (1, 2), legend = false)
+end
 
 # ╔═╡ e87bd25a-9dec-4068-bd4f-c6885ce583dd
 md" 
@@ -68,7 +106,10 @@ probability = 0.5
 # ╔═╡ 03e2257d-4f28-42bc-af4e-fd056437a8c5
 md"## The univariate normal distribution
 Many physical processes exhibit the bell-shaped histogram of a normal distribution. \
-❗ If you are rusty on working with normal distributions, do have a look at the process of standardization and on using a z-value table before doing additional exercises.
+❗ If you are rusty on working with normal distributions, do have a look at the process of standardization and on using a z-value table before doing additional exercises.\
+💡 \" Univariate \" indicates we are dealing with 1 dimension! \
+\"Uni\" → One \
+\"variate\" → variable, the considered parameter (for weaponeering often [m])
 "
 
 # ╔═╡ 6c1a0381-71bb-49c2-b5e4-d920b7e1029c
@@ -147,8 +188,15 @@ A gun is aimed at a bridge 50 m long, located in the direction of fire, at a dis
 
 "
 
-# ╔═╡ d8f28494-63a0-4c07-83c1-238d74c71925
-answer = 0.9
+# ╔═╡ 1a1fd879-8323-4f9c-9662-d55a36668d64
+md"
+💡 you can enter your result below, if your value is correct, the box below will turn green. \
+❗ enter your value with three numbers after the comma
+"
+
+# ╔═╡ da951e92-f191-4b8d-b4a6-6eac4490162f
+md"The probability is: $(@bind s TextField())"
+
 
 # ╔═╡ 65ec32d2-e08f-4da7-9b8f-a0d99ab11d50
 md"
@@ -163,14 +211,20 @@ An artillery piece is aimed at an advancing IFV (Infantry Fighting Vehicle) at a
 
 "
 
-# ╔═╡ c7188e1b-9ba7-4f96-92d1-482875dc4439
-probability_neutralisation = 0.7
+# ╔═╡ 2f0be9de-8807-4f3b-9c57-72eae797f4a9
+md"
+💡 you can enter your result below, if your value is correct, the box below will turn green. \
+❗ enter your value with three numbers after the comma
+"
+
+# ╔═╡ a5edd9df-1527-49a2-8a52-ebb5caad9400
+md"The pobability is: $(@bind s2 TextField())"
 
 # ╔═╡ 91f9ccfa-7e5b-46e6-a6d2-a6aaac322594
 md"## The multivariate normal distribution
 ### Bivariate normal distribution
 
-Let is consider axis 1 and 2 which are perpendicular.
+Let us consider axis 1 and 2 which are perpendicular. 
 We can define two independent normal distributions linked to one of the axis:
 - 𝒩₁(μ₁, σ₁)
 - 𝒩₂(μ₂, σ₂)
@@ -188,14 +242,49 @@ md"
 $$\int_{}^{} \int_{}^{} \frac{1}{2\sigma^2 \pi} e^{\frac{-1}{2} {\left( \frac{x-\mu_x}{\sigma_x} \right)}^2} \! e^{\frac{-1}{2} {\left( \frac{x-\mu_y}{\sigma_y} \right)}^2}dxdy$$
 "
 
-# ╔═╡ fe9a7391-c6f5-4a42-9586-76470131fcd4
+# ╔═╡ 3a66d152-3b7d-433a-a0ad-f36f37c0f90d
 md"
-If we combine x and y keeping in mind we will be considering a disk as our area of interest the integral can be replaced with the Rayleigh distribution of which the CDF is given by:
+For a standard distribution with mean impact point on the origin (0,0) and both standard deviations set to 1, calculating the probability the projectile will hit within a square of 2 by 4 meters centered on the origin, comes down to calculating the enclosed section (or area for the 3D figure). \
+To simplify the calculations, the probavilities in the x- and y-direction can be calculated separatly and multiplied afterwards to obtain the selected volume under the 3D-plot.
+
+"
+
+# ╔═╡ f26f571b-b65f-465f-a87e-a6465858e18c
+begin
+	bivar_x2 = -3:0.2:3
+	bivar_y2 = -3:0.2:3
+	𝒩bivarx = Normal(0,1); 𝒩bivary = Normal(0,1)
+	bivar_z2 = zeros(Float64, length(bivar_x2), length(bivar_y2))
+	for i = 1:length(bivar_x2), j = 1:length(bivar_y2)
+		bivar_z2[i,j] = pdf(𝒩bivarx, bivar_x2[i]) * pdf(𝒩bivary, bivar_y2[j])
+	end
+	p3bv = wireframe(bivar_x2,bivar_y2,bivar_z2, xlabel="x [m]", ylabel="y [m]", zlabel="probability")
+	scatter!(bivar_x2.*0 .+ 1.0,bivar_y2, bivar_z2[:,21], color="red")
+	scatter!(bivar_x2.*0 .- 1.0,bivar_y2, bivar_z2[:,11], color="red")
+	scatter!(bivar_x2,bivar_y2 .* 0 .+ 2.0, bivar_z2[26,:], color="green")
+	scatter!(bivar_x2,bivar_y2 .* 0 .+ -2.0, bivar_z2[6,:], color="green")
+	p1bv = plot(bivar_x2, bivar_z2[:, convert(Int,ceil(length(bivar_y2)/2))], xlabel="x [m]", ylabel="probability")
+	vline!([-1.0, 1.0])
+	p4bv = plot(bivar_z2[convert(Int,ceil(length(bivar_y2)/2)),:], bivar_y2, 
+	xlabel="probability", ylabel="y [m]")
+	hline!([2.0, -2.0], color="green")
+	p2bv = plot(legend=false,grid=false,foreground_color_subplot=:white)
+	plot(p1bv, p2bv, p3bv, p4bv, layout = (2, 2), legend = false)
+end
+
+# ╔═╡ 7b5f672a-f466-476e-aa18-29d63f4fea91
+md"
+If we would like to obtain information on the probability an impact will occur within a certain distance form the average impact point, we can substitute x and y for the radius r, obtaining the Rayleigh distribution of which the CDF is given by:
 "
 
 # ╔═╡ 4a52796b-2cef-4742-bebc-f9a6eae1f81e
 md"
 $$P(r \leq R) = 1-e^{\frac{-R^2}{2 \sigma^2}}$$
+"
+
+# ╔═╡ fe9a7391-c6f5-4a42-9586-76470131fcd4
+md"
+❗ Keep in mind the Rayleigh distribution is an exeption where we are interested in a circular area centered on the mean impact point ❗
 "
 
 # ╔═╡ 51163392-a671-41ec-8df5-fbfce0622e7b
@@ -259,14 +348,20 @@ begin
 	md""
 end
 
-# ╔═╡ 083b70d2-74a4-44d8-904f-d491993a0ee2
-CEP_1000m = 0.59
+# ╔═╡ ef3cac5b-82ce-4044-9197-79a35b20c16e
+md"
+💡 you can enter your result below, if your value is correct, the box below will turn green. \
+❗ enter your value with three numbers after the comma
+"
 
-# ╔═╡ 31eb54e6-8ceb-4863-8760-9897457049ba
-probability_1m_circle = 0.9
+# ╔═╡ b25d1667-16ed-4f63-ab66-0cab448213f5
+md"The CEP at 1000 m in mils is: $(@bind s3 TextField())"
 
-# ╔═╡ 41c8f345-258d-45ee-96b0-0c77c2618879
-probability_2km_tgt = 0.65
+# ╔═╡ cd5c1d99-57f9-4400-96eb-f8059833b4c8
+md"The probability of hitting a circle with a radius of 1 meter at 1000 meters is: $(@bind s4 TextField())"
+
+# ╔═╡ 09e5ad14-705b-47de-bdd7-aaaa638b8ced
+md"The probability of hitting a 4 by 2 meter target at 2000 meters (assuming a linearly growing EP) is: $(@bind s5 TextField())"
 
 # ╔═╡ 84ed4a72-5902-446c-9533-e3b97fa52002
 md"
@@ -303,10 +398,10 @@ begin
 		drawecep = sqrt.(eqCEP^2 .- xecep.^2)
 
 
-	p5 = contour(xs, ys, zs, xlabel = "[]", ylabel = "[]",
+	p5 = contour(xs, ys, zs, xlabel = "[m]", ylabel = "[m]",
     	title = "contourmap \n (σᵢ = $σᵢ, ratio = $ratio)", aspect_ratio=1.0, legend = false)
 
-	p6 = plot(xecep, drawecep, color = "blue", label = "ECEP", xlabel = "[]", ylabel = "[]", title = "comparison CEP - ECEP \n (σᵢ = $σᵢ, ratio = $ratio)", aspect_ratio=1.0)
+	p6 = plot(xecep, drawecep, color = "blue", label = "ECEP", xlabel = "[m]", ylabel = "[m]", title = "comparison CEP - ECEP \n (σᵢ = $σᵢ, ratio = $ratio)", aspect_ratio=1.0)
 	plot!(xecep, -drawecep, color = "blue", label = false)
 	plot!(drawellips, xcep, color = "red", label = "ellips")
 	plot!(-drawellips, xcep, color = "red")
@@ -325,7 +420,7 @@ We define $$\sigma_s = min(\sigma_x, \sigma_y)$$ and $$\sigma_l = max(\sigma_x, 
 md"""
 💡 ECEP Rule:
 - ratio standard deviations is no smaller than 0.5
-use: $$CEP = 1.1774 \ \frac{\sigma_x+\sigma_y}{2}$$ or $$\ CEP = 1.1774 \ \sqrt{\frac{{\sigma_x}^2+{\sigma_y}^2}{2}}$$ or $$\ CEP = 1.1774 \ \sqrt{\sigma_x\sigma_y}$$
+use: $$CEP = 1.1774 \ \frac{\sigma_x+\sigma_y}{2}$$
 - ratio smaller than 0.5
 use: $$CEP = 0.562 \ \sigma_l + 0.617 \ \sigma_s$$
    (Pittsman's equation) 
@@ -453,8 +548,8 @@ end
 # ╔═╡ 94031694-2453-4a41-a63e-4d02bfe1c46d
 	md" the probability the bomber is killed is : "
 
-# ╔═╡ 5c38fd4c-5821-4b87-b320-844599cf13b9
-𝒫𝒦 = 0.5
+# ╔═╡ 46b2e44c-20c8-4317-bd47-9c92d05c5389
+@bind s6 TextField()
 
 # ╔═╡ 0910630c-1faf-4288-b165-fc9827965b55
 md"""
@@ -528,44 +623,16 @@ md"""
 """
 end
 
-# ╔═╡ 9bfb0109-4ff3-44b4-aa94-907f4b8c8cb6
-begin
-	α = 3
-	ntot = 12000
-	μP = 3/4
-	tP = 4
-	#SR = exp(- μP*tP)*(μP*tP)^0/factorial(0)
-	#LR = 1-SR
-	α_new =  -log(0.95)
-	n = 120000*α_new
-	𝒫₂ = exp(-α)*(α)^2/factorial(2)
-	md" "
-end
-
-# ╔═╡ 9064f74b-1a2e-491c-95c3-7d55f62034d8
-number_of_mines = 6155
-
-# ╔═╡ 7138ccac-f653-4659-b192-c3712843ee6c
-𝒫2deminers = 0.13
-
-# ╔═╡ 2949fc37-7f65-45ca-ab0b-0332291cbcc4
-md"## Combining distributions
-"
-
-# ╔═╡ 24531084-7277-4e8a-b367-c91bf7ba150d
-md"""
-❓ When multiple normal distributions are involved, the standard deviations ... ❓ \
-I would perhaps add the part on: x = y + z ⇒ $$\sigma_x = \sqrt{{\sigma_y}^2+{\sigma_z}^2}$$
-"""
-
-# ╔═╡ e2a45a98-51cb-4801-850e-a286d950d270
-md"## χ²-test
-"
-
-# ╔═╡ 6e5255c6-525e-49fc-9acb-641c597b26dd
+# ╔═╡ 3e6e8d61-4889-4564-8d61-7a8cd99cd19e
 md"
-❓ do we add this one? ❓
+❗ enter your value as a whole number
 "
+
+# ╔═╡ 8d49d627-f823-4ab7-8be9-35adaf5d5bb8
+md"A deminer can defuze :$(@bind s7 TextField()) mines"
+
+# ╔═╡ 727e9ce3-9c79-47c9-9d22-501e0b18a8d0
+md"The probability is: $(@bind s8 TextField())"
 
 # ╔═╡ e74f2c3d-561e-4776-9d37-d0032343a806
 #-------------------------------------------------------------------------
@@ -606,13 +673,14 @@ end
 
 # ╔═╡ d210926a-f42f-4bb5-9ed3-67896931d8d2
 begin
+answer = parse(Float64, s)
 LEP = 22
 σₑₚ = 22/0.6745
 Dist = Normal(7000,σₑₚ)
 P = -cdf(Dist , 6975) + cdf(Dist , 7025) 
 
 
-if isapprox(answer, P)
+if isapprox(answer, P, atol = 0.0015)
 	correct()
 else
 	keep_working()
@@ -621,13 +689,14 @@ end
 
 # ╔═╡ 964aaeef-9559-4f77-aa3c-a8cc5a2b2228
 begin
+	probability_neutralisation = parse(Float64, s2)
 	R90 = 120
 	σR90 = R90/2.146
 	DistR90 = Normal(0, σR90)
 	𝒫R90 = (1-cdf(DistR90, 50))*2
 
 	
-if isapprox(probability_neutralisation, 𝒫R90)
+if isapprox(probability_neutralisation, 𝒫R90, atol = 0.0015)
 	correct()
 else
 	keep_working()
@@ -635,45 +704,72 @@ end
 end
 
 # ╔═╡ 3479272e-06b1-4ec1-9d3d-f6259799a480
-if floor(CEP; digits = 3) ≤ CEP_1000m ≤ ceil(CEP; digits = 3)
-	correct()
-else
-	keep_working()
+begin
+	CEP_1000m = parse(Float64, s3)
+	if floor(CEP; digits = 3) ≤ CEP_1000m ≤ ceil(CEP; digits = 3)
+		correct()
+	else
+		keep_working()
+	end
 end
 
 # ╔═╡ 88aa53f3-be74-4af3-b0f0-fb3db32482f9
-if floor(𝒫1k; digits = 3) ≤ probability_1m_circle ≤ ceil(𝒫1k; digits = 3)
-	correct()
-else
-	keep_working()
+begin
+	probability_1m_circle = parse(Float64, s4)
+	if floor(𝒫1k; digits = 3) ≤ probability_1m_circle ≤ ceil(𝒫1k; digits = 3)
+		correct()
+	else
+		keep_working()
+	end
 end
 
 # ╔═╡ bdc70a8c-b260-4764-b07c-2177277ddd89
-if floor(𝒫2ktotal; digits = 3) ≤ probability_2km_tgt ≤ ceil(𝒫2ktotal; digits = 3)
-	correct()
-else
-	keep_working()
+begin
+	probability_2km_tgt = parse(Float64, s5)
+	if floor(𝒫2ktotal; digits = 3) ≤ probability_2km_tgt ≤ ceil(𝒫2ktotal; digits = 3)
+		correct()
+	else
+		keep_working()
+	end
 end
 
 # ╔═╡ 287fd3e8-ed6e-45a9-b806-da3e566993a6
-if floor(𝒫K; digits = 3) ≤ 𝒫𝒦 ≤ ceil(𝒫K; digits = 3)
-	correct()
-else
-	hint(md"𝒫K = 𝒫A.𝒫D/A.𝒫L/D.𝒫I/L.𝒫H/I. 𝒫K/H")
+begin
+	𝒫𝒦 = parse(Float64, s6)
+	if floor(𝒫K; digits = 3) ≤ 𝒫𝒦 ≤ ceil(𝒫K; digits = 3)
+		correct()
+	else
+		hint(md"𝒫K = 𝒫A.𝒫D/A.𝒫L/D.𝒫I/L.𝒫H/I. 𝒫K/H")
+	end
 end
 
 # ╔═╡ d7a5d690-5fc1-457f-bea2-4cd68c84d591
-if isapprox(number_of_mines, n; atol=5)
-	correct()
-else
-	keep_working()
+begin
+	number_of_mines = parse(Int64, s7)
+	α = 3
+	ntot = 12000
+	μP = 3/4
+	tP = 4
+	#SR = exp(- μP*tP)*(μP*tP)^0/factorial(0)
+	#LR = 1-SR
+	α_new =  -log(0.95)
+	n = 120000*α_new
+	𝒫₂ = exp(-α)*(α)^2/factorial(2)
+	if isapprox(number_of_mines, n; atol=2)
+		correct()
+	else
+		keep_working()
+	end
 end
 
 # ╔═╡ b0eafcbf-f70d-4416-ab24-192c937c7bee
-if isapprox(𝒫2deminers, 𝒫₂; atol=0.002)
-	correct()
-else
-	keep_working()
+begin
+	𝒫2deminers = parse(Float64, s8)
+	if isapprox(𝒫2deminers, 𝒫₂; atol=0.002)
+		correct()
+	else
+		keep_working()
+	end
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -706,9 +802,9 @@ PlutoUI = "~0.7.40"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.3"
 manifest_format = "2.0"
-project_hash = "475266d348157a8957d645da8c53a3fc7d0ca15f"
+project_hash = "d63228652b2135db6807da6056a23699866fc338"
 
 [[deps.ANSIColoredPrinters]]
 git-tree-sha1 = "574baf8110975760d391c710b6341da1afa48d8c"
@@ -774,9 +870,9 @@ version = "0.5.1"
 
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "dc4405cee4b2fe9e1108caec2d760b7ea758eca2"
+git-tree-sha1 = "e7ff6cadf743c098e08fca25c91103ee4303c9bb"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.15.5"
+version = "1.15.6"
 
 [[deps.ChangesOfVariables]]
 deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
@@ -810,9 +906,9 @@ version = "0.12.8"
 
 [[deps.Compat]]
 deps = ["Dates", "LinearAlgebra", "UUIDs"]
-git-tree-sha1 = "5856d3031cdb1f3b2b6340dfdc66b6d9a149a374"
+git-tree-sha1 = "aaabba4ce1b7f8a9b34c015053d3b1edf60fa49c"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.2.0"
+version = "4.4.0"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -831,9 +927,9 @@ uuid = "e3df1716-f71e-5df9-9e2d-98e193103c45"
 version = "0.3.2"
 
 [[deps.DataAPI]]
-git-tree-sha1 = "fb5f5316dd3fd4c5e7c30a24d50643b73e37cd40"
+git-tree-sha1 = "e08915633fcb3ea83bf9d6126292e5bc5c739922"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
-version = "1.10.0"
+version = "1.13.0"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -866,15 +962,15 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.Distributions]]
 deps = ["ChainRulesCore", "DensityInterface", "FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test"]
-git-tree-sha1 = "ee407ce31ab2f1bacadc3bd987e96de17e00aed3"
+git-tree-sha1 = "7fe1eff48e18a91946ff753baf834ff4d5c03744"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
-version = "0.25.71"
+version = "0.25.78"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
-git-tree-sha1 = "5158c2b41018c5f7eb1470d558127ac274eca0c9"
+git-tree-sha1 = "c36550cb29cbe373e95b3f40486b9a4148f89ffd"
 uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
-version = "0.9.1"
+version = "0.9.2"
 
 [[deps.Documenter]]
 deps = ["ANSIColoredPrinters", "Base64", "Dates", "DocStringExtensions", "IOCapture", "InteractiveUtils", "JSON", "LibGit2", "Logging", "Markdown", "REPL", "Test", "Unicode"]
@@ -916,9 +1012,9 @@ uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 
 [[deps.FillArrays]]
 deps = ["LinearAlgebra", "Random", "SparseArrays", "Statistics"]
-git-tree-sha1 = "87519eb762f85534445f5cda35be12e32759ee14"
+git-tree-sha1 = "802bfc139833d2ba893dd9e62ba1767c88d708ae"
 uuid = "1a297f60-69ca-5386-bcde-b61e274b549b"
-version = "0.13.4"
+version = "0.13.5"
 
 [[deps.FixedPointNumbers]]
 deps = ["Statistics"]
@@ -1050,9 +1146,9 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
-git-tree-sha1 = "b3364212fb5d870f724876ffcd34dd8ec6d98918"
+git-tree-sha1 = "49510dfcb407e572524ba94aeae2fced1f3feb0f"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.7"
+version = "0.1.8"
 
 [[deps.IrrationalConstants]]
 git-tree-sha1 = "7fd44fd4ff43fc60815f8e764c0f352b83c49151"
@@ -1212,11 +1308,16 @@ version = "0.3.18"
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
+[[deps.MIMEs]]
+git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "0.1.4"
+
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
-git-tree-sha1 = "3d3e902b31198a27340d0bf00d6ac452866021cf"
+git-tree-sha1 = "42324d08725e200c23d4dfb549e0d5d89dede2d2"
 uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
-version = "0.5.9"
+version = "0.5.10"
 
 [[deps.Markdown]]
 deps = ["Base64"]
@@ -1224,9 +1325,9 @@ uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
 [[deps.MbedTLS]]
 deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "Random", "Sockets"]
-git-tree-sha1 = "ae6676d5f576ccd21b6789c2cbe2ba24fcc8075d"
+git-tree-sha1 = "03a9b9718f5682ecb107ac9f7308991db4ce395b"
 uuid = "739be429-bea8-5141-9913-cc70e7f3736d"
-version = "1.1.5"
+version = "1.1.7"
 
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1234,9 +1335,9 @@ uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
 version = "2.28.0+0"
 
 [[deps.Measures]]
-git-tree-sha1 = "e498ddeee6f9fdb4551ce855a46f54dbd900245f"
+git-tree-sha1 = "c13304c81eec1ed3af7fc20e75fb6b26092a1102"
 uuid = "442fdcdd-2543-5da2-b0f3-8c86c306513e"
-version = "0.3.1"
+version = "0.3.2"
 
 [[deps.Missings]]
 deps = ["DataAPI"]
@@ -1274,9 +1375,9 @@ uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
 
 [[deps.Observables]]
-git-tree-sha1 = "dfd8d34871bc3ad08cd16026c1828e271d554db9"
+git-tree-sha1 = "6862738f9796b3edc1c09d0890afce4eca9e7e93"
 uuid = "510215fc-4207-5dde-b226-833fc4488ee2"
-version = "0.5.1"
+version = "0.5.4"
 
 [[deps.Ogg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1296,9 +1397,9 @@ version = "0.8.1+0"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "e60321e3f2616584ff98f0a4f18d98ae6f89bbb3"
+git-tree-sha1 = "f6e9dba33f9f2c44e08a020b0caf6903be540004"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.17+0"
+version = "1.1.19+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -1329,10 +1430,10 @@ uuid = "90014a1f-27ba-587c-ab20-58faa44d9150"
 version = "0.11.16"
 
 [[deps.Parsers]]
-deps = ["Dates"]
-git-tree-sha1 = "3d5bf43e3e8b412656404ed9466f1dcbf7c50269"
+deps = ["Dates", "SnoopPrecompile"]
+git-tree-sha1 = "b64719e8b4504983c7fca6cc9db3ebc8acc2a4d6"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.4.0"
+version = "2.5.1"
 
 [[deps.Pidfile]]
 deps = ["FileWatching", "Test"]
@@ -1370,15 +1471,15 @@ version = "1.3.1"
 
 [[deps.Plots]]
 deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SnoopPrecompile", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
-git-tree-sha1 = "0a56829d264eb1bc910cf7c39ac008b5bcb5a0d9"
+git-tree-sha1 = "b434dce10c0290ab22cb941a9d72c470f304c71d"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.35.5"
+version = "1.35.8"
 
 [[deps.PlutoUI]]
-deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
-git-tree-sha1 = "a602d7b0babfca89005da04d89223b867b55319f"
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
+git-tree-sha1 = "efc140104e6d0ae3e7e30d56c98c4a927154d684"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.40"
+version = "0.7.48"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -1392,15 +1493,15 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[deps.QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
-git-tree-sha1 = "3c009334f45dfd546a16a57960a821a1a023d241"
+git-tree-sha1 = "97aa253e65b784fd13e83774cadc95b38011d734"
 uuid = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
-version = "2.5.0"
+version = "2.6.0"
 
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1418,9 +1519,9 @@ version = "1.3.1"
 
 [[deps.RecipesPipeline]]
 deps = ["Dates", "NaNMath", "PlotUtils", "RecipesBase", "SnoopPrecompile"]
-git-tree-sha1 = "9b1c0c8e9188950e66fc28f40bfe0f8aac311fe0"
+git-tree-sha1 = "e974477be88cb5e3040009f3767611bc6357846f"
 uuid = "01d81517-befc-4cb6-b9ec-a95719d0359c"
-version = "0.6.7"
+version = "0.6.11"
 
 [[deps.Reexport]]
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
@@ -1480,9 +1581,9 @@ uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 
 [[deps.SortingAlgorithms]]
 deps = ["DataStructures"]
-git-tree-sha1 = "b3363d7460f7d098ca0912c69b082f75625d7508"
+git-tree-sha1 = "a4ada03f999bd01b3a25dcaa30b2d929fe537e00"
 uuid = "a2af1166-a08f-5f64-846c-94a0d3cef48c"
-version = "1.0.1"
+version = "1.1.0"
 
 [[deps.SparseArrays]]
 deps = ["LinearAlgebra", "Random"]
@@ -1533,14 +1634,14 @@ version = "1.0.1"
 
 [[deps.Tables]]
 deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "OrderedCollections", "TableTraits", "Test"]
-git-tree-sha1 = "5ce79ce186cc678bbb5c5681ca3379d1ddae11a1"
+git-tree-sha1 = "c79322d36826aa2f4fd8ecfa96ddb47b174ac78d"
 uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-version = "1.7.0"
+version = "1.10.0"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1600,9 +1701,9 @@ version = "1.25.0+0"
 
 [[deps.WebIO]]
 deps = ["AssetRegistry", "Base64", "Distributed", "FunctionalCollections", "JSON", "Logging", "Observables", "Pkg", "Random", "Requires", "Sockets", "UUIDs", "WebSockets", "Widgets"]
-git-tree-sha1 = "a8bbcd0b08061bba794c56fb78426e96e114ae7f"
+git-tree-sha1 = "55ea1b43214edb1f6a228105a219c6e84f1f5533"
 uuid = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
-version = "0.8.18"
+version = "0.8.19"
 
 [[deps.WebSockets]]
 deps = ["Base64", "Dates", "HTTP", "Logging", "Sockets"]
@@ -1838,9 +1939,14 @@ version = "1.4.1+0"
 # ╔═╡ Cell order:
 # ╟─7f488943-6cd3-431d-8d8b-511365b4b90b
 # ╟─e9bfc4df-4b0e-4196-9acf-4e13bf44348e
-# ╠═7741fd78-34d5-11ed-3d55-dd986e292da5
+# ╟─7741fd78-34d5-11ed-3d55-dd986e292da5
 # ╟─e2bf1c53-7952-4ae7-8b76-f0d5e2c47e16
 # ╟─784665d1-48b1-4ce9-8052-aa1bb72cd1a6
+# ╟─66ace31f-2353-407e-8774-bfc83e907771
+# ╟─b3088ae8-db0b-4488-bee1-7ba76470cdd6
+# ╟─8238f948-3a51-4236-9b81-4237bff28900
+# ╟─72b3ceba-7d58-484c-b680-aa13a7e72b75
+# ╟─a21c8daa-1640-4b44-be00-015e442616f9
 # ╟─e87bd25a-9dec-4068-bd4f-c6885ce583dd
 # ╟─cd42407c-2405-4ea9-96f7-e1c339815757
 # ╟─745b923f-9ff8-4b57-82b4-472c9831c1ad
@@ -1859,16 +1965,21 @@ version = "1.4.1+0"
 # ╟─c790f444-49bb-4d21-9442-638d217908ca
 # ╟─7e055239-97b6-48a4-a2a3-20e8ee140d45
 # ╟─0b891e54-91be-475c-a48d-45c988df1795
-# ╠═d8f28494-63a0-4c07-83c1-238d74c71925
+# ╟─1a1fd879-8323-4f9c-9662-d55a36668d64
+# ╟─da951e92-f191-4b8d-b4a6-6eac4490162f
 # ╟─d210926a-f42f-4bb5-9ed3-67896931d8d2
 # ╟─65ec32d2-e08f-4da7-9b8f-a0d99ab11d50
 # ╟─0c92ec48-8b7c-42a3-89d3-fd897d9e7115
-# ╠═c7188e1b-9ba7-4f96-92d1-482875dc4439
+# ╟─2f0be9de-8807-4f3b-9c57-72eae797f4a9
+# ╟─a5edd9df-1527-49a2-8a52-ebb5caad9400
 # ╟─964aaeef-9559-4f77-aa3c-a8cc5a2b2228
 # ╟─91f9ccfa-7e5b-46e6-a6d2-a6aaac322594
 # ╟─f179ae75-f110-4669-9a0b-5479918b1564
-# ╟─fe9a7391-c6f5-4a42-9586-76470131fcd4
+# ╟─3a66d152-3b7d-433a-a0ad-f36f37c0f90d
+# ╟─f26f571b-b65f-465f-a87e-a6465858e18c
+# ╟─7b5f672a-f466-476e-aa18-29d63f4fea91
 # ╟─4a52796b-2cef-4742-bebc-f9a6eae1f81e
+# ╟─fe9a7391-c6f5-4a42-9586-76470131fcd4
 # ╟─51163392-a671-41ec-8df5-fbfce0622e7b
 # ╟─0d70fb9b-2cce-4465-9589-27978961804c
 # ╟─a2e6a3f6-1643-4810-b30b-d760e1398922
@@ -1877,11 +1988,12 @@ version = "1.4.1+0"
 # ╟─3d253278-6739-432c-9c0d-b8053ed91dd5
 # ╟─39236e74-5a9f-4002-861b-0ac5940ed5fa
 # ╟─ce68175a-f964-4111-be70-d76fa21df25f
-# ╠═083b70d2-74a4-44d8-904f-d491993a0ee2
+# ╟─ef3cac5b-82ce-4044-9197-79a35b20c16e
+# ╟─b25d1667-16ed-4f63-ab66-0cab448213f5
 # ╟─3479272e-06b1-4ec1-9d3d-f6259799a480
-# ╠═31eb54e6-8ceb-4863-8760-9897457049ba
+# ╟─cd5c1d99-57f9-4400-96eb-f8059833b4c8
 # ╟─88aa53f3-be74-4af3-b0f0-fb3db32482f9
-# ╠═41c8f345-258d-45ee-96b0-0c77c2618879
+# ╟─09e5ad14-705b-47de-bdd7-aaaa638b8ced
 # ╟─bdc70a8c-b260-4764-b07c-2177277ddd89
 # ╟─84ed4a72-5902-446c-9533-e3b97fa52002
 # ╟─84169a90-51d3-49e4-a2e6-c3553a6cb1ce
@@ -1905,8 +2017,8 @@ version = "1.4.1+0"
 # ╟─7eb8c42e-4234-4613-ae18-f5267719756c
 # ╟─dfb39376-a2c1-4ca3-bffc-2bde7f8a3017
 # ╟─94031694-2453-4a41-a63e-4d02bfe1c46d
-# ╠═5c38fd4c-5821-4b87-b320-844599cf13b9
-# ╠═287fd3e8-ed6e-45a9-b806-da3e566993a6
+# ╟─46b2e44c-20c8-4317-bd47-9c92d05c5389
+# ╟─287fd3e8-ed6e-45a9-b806-da3e566993a6
 # ╟─0910630c-1faf-4288-b165-fc9827965b55
 # ╟─e87272f9-cfce-4835-bd04-a0b81761cda2
 # ╟─a7cb3cfa-324e-43af-98dc-03d4288cb646
@@ -1920,15 +2032,11 @@ version = "1.4.1+0"
 # ╟─28ec5119-e0ae-4faf-9a54-97ca3c651dbf
 # ╟─fa299038-6b25-400b-9cb2-bcbedd737570
 # ╟─60e4f15e-acf1-48bb-84cc-c8486f4397bb
-# ╟─9bfb0109-4ff3-44b4-aa94-907f4b8c8cb6
-# ╟─9064f74b-1a2e-491c-95c3-7d55f62034d8
+# ╟─3e6e8d61-4889-4564-8d61-7a8cd99cd19e
+# ╟─8d49d627-f823-4ab7-8be9-35adaf5d5bb8
 # ╟─d7a5d690-5fc1-457f-bea2-4cd68c84d591
-# ╠═7138ccac-f653-4659-b192-c3712843ee6c
+# ╟─727e9ce3-9c79-47c9-9d22-501e0b18a8d0
 # ╟─b0eafcbf-f70d-4416-ab24-192c937c7bee
-# ╟─2949fc37-7f65-45ca-ab0b-0332291cbcc4
-# ╟─24531084-7277-4e8a-b367-c91bf7ba150d
-# ╟─e2a45a98-51cb-4801-850e-a286d950d270
-# ╟─6e5255c6-525e-49fc-9acb-641c597b26dd
 # ╟─e74f2c3d-561e-4776-9d37-d0032343a806
 # ╟─46359fb5-c34d-4c42-9032-13291caf5e0b
 # ╟─d79ba202-9de5-4388-b489-315505167b70
